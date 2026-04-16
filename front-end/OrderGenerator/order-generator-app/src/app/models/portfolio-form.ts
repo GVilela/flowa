@@ -1,4 +1,4 @@
-export interface TradeForm {
+export interface PortfolioForm {
   portfolioId: string;
   symbol: string;
   value: number;

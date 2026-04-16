@@ -1,11 +1,11 @@
 <div class="container">
-  <form [formGroup]="tradeForm" (ngSubmit)="onConfirm()" class="trade-card">
+  <form [formGroup]="portfolioForm" (ngSubmit)="onConfirm()" class="portfolio-card">
     
     <section class="section">
       <label class="section-label">Seleção de Carteira</label>
       <select formControlName="portfolioId" class="form-control">
         <option value="" disabled>Selecione uma carteira disponível</option>
-        <option *ngFor="let w of portfolios()" [value]="w.portfolioId">
+        <option *ngFor="let w of portfolios" [value]="w.portfolioId">
           {{ w.name }} ({{ w.portfolioId }})
         </option>
       </select>
@@ -50,18 +50,18 @@
         <div class="input-container">
           <label>Quantidade</label>
           <input type="number" formControlName="quantity" placeholder="Ex: 100" class="form-control" />
-          <small *ngIf="tradeForm.get('quantity')?.invalid && tradeForm.get('quantity')?.dirty">Máx: 99.999</small>
+          <small *ngIf="portfolioForm.get('quantity')?.invalid && portfolioForm.get('quantity')?.dirty">Máx: 99.999</small>
         </div>
 
         <div class="input-container">
           <label>Preço (R$)</label>
           <input type="text" formControlName="price" (input)="formatCurrency($event)" placeholder="0,00" class="form-control" />
-          <small *ngIf="tradeForm.get('price')?.invalid && tradeForm.get('price')?.dirty">Máx: R$ 999,99</small>
+          <small *ngIf="portfolioForm.get('price')?.invalid && portfolioForm.get('price')?.dirty">Máx: R$ 999,99</small>
         </div>
 
         <div class="input-container">
           <label>Operação</label>
-          <select formControlName="side" class="form-control side-select" [ngClass]="tradeForm.get('side')?.value">
+          <select formControlName="side" class="form-control side-select" [ngClass]="portfolioForm.get('side')?.value">
             <option value="BUY">COMPRA</option>
             <option value="SELL">VENDA</option>
           </select>
@@ -74,7 +74,7 @@
       
       <footer class="actions">
         <button type="button" class="btn-secondary" (click)="onClear()">Limpar</button>
-        <button type="submit" class="btn-primary" [disabled]="tradeForm.invalid">
+        <button type="submit" class="btn-primary" [disabled]="portfolioForm.invalid">
           Confirmar Operação
         </button>
       </footer>

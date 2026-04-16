@@ -1,4 +1,4 @@
-/* trade-form.component.scss */
+/* portfolio-form.component.scss */
 
 /* ── Tokens ── */
 :host {
@@ -30,7 +30,7 @@
   padding: 2.5rem 1rem;
 }
 
-.trade-card {
+.portfolio-card {
   background: var(--clr-card);
   border: 1px solid var(--clr-border);
   border-radius: 16px;
@@ -43,6 +43,7 @@
 /* ── Sections ── */
 .section {
   margin-bottom: var(--gap);
+  color: #ffffff;
 }
 
 .section-title {
