@@ -1,0 +1,84 @@
+<div class="container">
+  <form [formGroup]="portfolioForm" (ngSubmit)="onConfirm()" class="portfolio-card">
+    
+    <section class="section">
+      <label class="section-label">Seleção de Carteira</label>
+      <select formControlName="portfolioId" class="form-control">
+        <option value="" disabled>Selecione uma carteira disponível</option>
+        <option *ngFor="let w of portfolios" [value]="w.portfolioId">
+          {{ w.name }} ({{ w.portfolioId }})
+        </option>
+      </select>
+    </section>
+
+    <div *ngIf="selectedPortfolio()" class="portfolio-details grid-3 animate-fade-in">
+      <div class="info-group">
+        <label>Proprietário / CPF</label>
+        <p><strong>{{ selectedPortfolio()?.name }}</strong> - {{ selectedPortfolio()?.document }}</p>
+      </div>
+      <div class="info-group">
+        <label>Ativos Atuais</label>
+        <p>{{ selectedPortfolio()?.assets?.join(', ') }}</p>
+      </div>
+      <div class="info-group">
+        <label>Valor Total</label>
+        <p class="price-highlight">R$ {{ selectedPortfolio()?.totalValue | number:'1.2-2' }}</p>
+      </div>
+      <div class="info-group">
+        <label>Risco em carteira</label>
+        <span class="badge">{{ selectedPortfolio()?.riskExposure }}</span>
+      </div>
+      <div class="info-group">
+        <label>Última atualização</label>
+        <p>{{ selectedPortfolio()?.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <section class="section">
+      <label class="section-label">Dados da Ordem</label>
+      <div class="grid-4">
+        <div class="input-container">
+          <label>Ativo</label>
+          <select formControlName="symbol" class="form-control">
+            <option value="" disabled>Selecione</option>
+            <option *ngFor="let s of symbols" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+
+        <div class="input-container">
+          <label>Quantidade</label>
+          <input type="number" formControlName="quantity" placeholder="Ex: 100" class="form-control" />
+          <small *ngIf="portfolioForm.get('quantity')?.invalid && portfolioForm.get('quantity')?.dirty">Máx: 99.999</small>
+        </div>
+
+        <div class="input-container">
+          <label>Preço (R$)</label>
+          <input type="text" formControlName="price" (input)="formatCurrency($event)" placeholder="0,00" class="form-control" />
+          <small *ngIf="portfolioForm.get('price')?.invalid && portfolioForm.get('price')?.dirty">Máx: R$ 999,99</small>
+        </div>
+
+        <div class="input-container">
+          <label>Operação</label>
+          <select formControlName="side" class="form-control side-select" [ngClass]="portfolioForm.get('side')?.value">
+            <option value="BUY">COMPRA</option>
+            <option value="SELL">VENDA</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-container">
+      <p *ngIf="success()" class="success-message">✅ Ordem enviada com sucesso!</p>
+      
+      <footer class="actions">
+        <button type="button" class="btn-secondary" (click)="onClear()">Limpar</button>
+        <button type="submit" class="btn-primary" [disabled]="portfolioForm.invalid">
+          Confirmar Operação
+        </button>
+      </footer>
+    </div>
+    
+  </form>
+</div>
